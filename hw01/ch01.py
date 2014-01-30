@@ -1,4 +1,8 @@
-"""Modified version of the example code from Janert,
+"""
+1/30/2014 Modified by Amanda Lee
+Adding a derivative term to make a PID controller
+
+Modified version of the example code from Janert,
 Feedback Control For Computer Systems
 
 This modified version requires pandas, numpy, and matplotlib.
@@ -45,13 +49,13 @@ class Buffer:
         return self.queued
 
 class Controller:
-    def __init__( self, kp, ki ):
+    def __init__( self, kp, ki, kd ):
         """Initializes the controller.
 
         kp: proportional gain
         ki: integral gain
         """
-        self.kp, self.ki = kp, ki
+        self.kp, self.ki, self.kd = kp, ki, kd
         self.i = 0       # Cumulative error ("integral")
 
     def work( self, e ):
@@ -63,7 +67,8 @@ class Controller:
         """
         self.i += e
 
-        return self.kp*e + self.ki*self.i
+        #adding a derivative term
+        return self.kp*e + self.ki*self.i + self.kd * e/.2
 
 # ============================================================
 
@@ -77,9 +82,10 @@ def closed_loop( c, p, tm=5000 ):
     returns: tuple of sequences (times, targets, errors)
     """
     def setpoint( t ):
-        if t < 100: return 0
-        if t < 300: return 50
-        return 10
+        #if t < 100: return 0
+        #if t < 300: return 50
+        #return 10
+        return t*50/1000 #gradually increasing setpoint
     
     y = 0
     res = []
@@ -96,7 +102,8 @@ def closed_loop( c, p, tm=5000 ):
 
 # ============================================================
 
-c = Controller( 1.25, 0.01 )
+#c = Controller( 1.25, 0.01 )
+c = Controller( .5, 0.05, .009 )
 p = Buffer( 50, 10 )
 
 # run the simulation
@@ -113,6 +120,3 @@ pyplot.plot(ts, rs, color='green', label='target')
 pyplot.plot(ts, ys, color='red', label='queue length')
 pyplot.plot(ts, ys_smooth, color='blue', label='trend')
 pyplot.show()
-
-
-
