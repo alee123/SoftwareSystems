@@ -54,9 +54,11 @@ class Controller:
 
         kp: proportional gain
         ki: integral gain
+        kd: derivative gain
         """
         self.kp, self.ki, self.kd = kp, ki, kd
         self.i = 0       # Cumulative error ("integral")
+        self.ePrev = 0   # previous error    
 
     def work( self, e ):
         """Computes the number of jobs to be added to the ready queue.
@@ -66,9 +68,11 @@ class Controller:
         returns: float number of jobs
         """
         self.i += e
+        self.eDiff = e - self.ePrev
+        self.ePrev = e
 
         #adding a derivative term
-        return self.kp*e + self.ki*self.i + self.kd * e/.2
+        return self.kp*e + self.ki*self.i + self.kd * self.eDiff/.2
 
 # ============================================================
 
