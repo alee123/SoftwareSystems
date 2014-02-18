@@ -3,11 +3,16 @@
 Copyright 2014 Allen Downey
 License: Creative Commons Attribution-ShareAlike 3.0
 
+2/17/2014 Modified by Amanda Lee
+Filled in the body of the function find_track_regex and 
+modified the main function to test find_track_regex.
+
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <regex.h>
 
 #define NUM_TRACKS 5
 
@@ -38,8 +43,28 @@ void find_track(char search_for[])
 // Prints track number and title.
 void find_track_regex(char pattern[])
 {
-    // TODO: fill this in
+    int i;
+    int status;
+    regex_t re;
+
+    // checks if the regular expression is valid
+    if (regcomp(&re, pattern, REG_EXTENDED|REG_NOSUB)!=0){
+        printf("This is an invalid regular expression \n");
+    }
+    else{
+        for (i=0; i<NUM_TRACKS; i++) {
+
+            // checks if the track matches the regex
+            status = regexec (&re, tracks[i], (size_t) 0, NULL, 0);
+            regfree(&re);
+            if (status ==0) {
+                printf("Track %i: '%s'\n", i, tracks[i]);
+            }
+        }   
+    }
+
 }
+
 
 // Truncates the string at the first newline, if there is one.
 void rstrip(char s[])
@@ -59,8 +84,8 @@ int main (int argc, char *argv[])
     fgets(search_for, 80, stdin);
     rstrip(search_for);
 
-    find_track(search_for);
-    //find_track_regex(search_for);
+    //find_track(search_for);
+    find_track_regex(search_for);
 
     return 0;
 }
