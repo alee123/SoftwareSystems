@@ -3,6 +3,9 @@
 Copyright 2014 Allen Downey
 License: Creative Commons Attribution-ShareAlike 3.0
 
+Modified by Amanda Lee
+2/20/2014
+
 */
 
 #include <stdio.h>
@@ -18,8 +21,39 @@ License: Creative Commons Attribution-ShareAlike 3.0
 
 char *center(char *s, int n, char fillchar)
 {
-    // FILL THIS IN
-    //    return NULL;
+    int i;
+    char *dest, *buf;
+
+    //find the starting position of s in the final string
+    int start = (n - strlen(s))/2;
+
+    //convert the char to a char array
+    char fillC[2];
+    fillC[0] = fillchar;
+    fillC[1] = '\0';
+
+    //allocate memory for the string
+    buf = (char *) malloc ((n+1) * sizeof(char));
+    buf[0] = '\0';
+    dest = buf;
+
+    //adds the first section of fillchar
+    for (i=0; i<start; i++) {
+    strcpy(dest, fillC);
+    dest ++;
+    }
+
+    //adds the string to be centered
+    strcpy(dest,s);
+    dest += strlen(s);
+
+    //adds the last section of fillchar
+    for (i = start+strlen(s); i<n; i++){
+        strcpy(dest, fillC);
+    dest ++;    
+    }
+
+    return buf;
 }
 
 
