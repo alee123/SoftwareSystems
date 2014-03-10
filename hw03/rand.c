@@ -15,6 +15,15 @@
     The GNU General Public License is available from
     http://www.gnu.org/licenses/.
 
+    modified by Amanda Lee
+    Software Systems, March 2014
+
+    For homework3 I modified the function my_random_double to calculate
+    a random double between 0 and 1. I used this site:
+    http://stackoverflow.com/questions/10108053/ranges-of-floating-point-datatype-in-c
+    as a source. 
+
+
 */
 
 // generate a random float using the algorithm described
@@ -32,7 +41,6 @@ float my_random_float()
 
   // generate 31 random bits (assuming that RAND_MAX is 2^31 - 1
   x = random();
-
   // use bit-sca-forward to find the first set bit and
   // compute the exponent
   asm ("bsfl %1, %0"
@@ -40,10 +48,10 @@ float my_random_float()
        :"r"(x)
       );
   exp = 126 - exp;
-
   // use the other 23 bits for the mantissa (for small numbers
   // this means we are re-using some bits)
   mant = x >> 8;
+
   b.i = (exp << 23) | mant;
 
   return b.f;
@@ -86,11 +94,47 @@ float my_random_float2()
   return b.f;
 }
 
-// compute a random double using my algorithm
+// compute a random double between 0 and 1 using my algorithm
+// we have to use long long int because we needed more bits.
 double my_random_double()
 {
-  // TODO: fill this in
+  long long int x;
+  long long int mant;
+  long long int exp = 1022;
+  long long int mask = 1;
+
+  union {
+    double f;
+    long long int i;
+  } b;
+
+  // generate random bits until we see the first set bit
+  while (1) {
+
+    // get a random long long int.
+    x = random();
+    x = (x <<32) | random();
+
+    if (x == 0) {
+      exp -= 63;
+    } else {
+      break;
+    }
+  }
+
+  // find the location of the first set bit and compute the exponent
+  while (x & mask) {
+    mask <<= 1;
+    exp--;
+  }
+
+  // use the remaining bit as the mantissa
+  mant = x >> 11;
+  b.i = (exp << 52) | mant;
+
+  return b.f;
 }
+
 
 // return a constant (this is a dummy function for time trials)
 float dummy()
