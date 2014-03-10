@@ -16,7 +16,7 @@ def read_file(filename):
         t.append(x)
     return t
 
-def main(script, filename='data'):
+def main(script, filename='data.txt'):
     t = read_file(filename)
     cdf = thinkstats2.MakeCdfFromList(t)
     thinkplot.Cdf(cdf)

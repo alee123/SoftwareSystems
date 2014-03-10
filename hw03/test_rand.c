@@ -1,3 +1,7 @@
+// Amanda Lee
+// Software Systems, March 2014
+// A program to compare the efficiency of random number
+// algorithms. Original code by Allen Downey. 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -7,6 +11,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+// returns the corrent time in seconds
 double get_seconds() {
   double user, sys;
   struct rusage r;
@@ -20,7 +25,7 @@ double get_seconds() {
 
   return user+sys;
 }
- 
+  
 double time_func(int iters, float (*func)())
 {
   int i;
@@ -44,10 +49,12 @@ main (int argc, char *argv[])
 {
   int i;
   float f;
+  double d1, d2;
   double t0, t1;
   int iters = 1000000000;
   int seed = 17;
 
+  /*  
   srandom (seed);
   t0 = get_seconds();
   for (i=0; i<iters; i++) {
@@ -82,10 +89,11 @@ main (int argc, char *argv[])
   }
   t1 = get_seconds();
   printf ("dummy2 \t %f ms\n", t1 - t0);    
-    
+   
 
   srandom (seed);
   t0 = get_seconds();
+  double f;
   for (i=0; i<iters; i++) {
     f = my_random_float();
   }
@@ -96,10 +104,10 @@ main (int argc, char *argv[])
   srandom (seed);
   t0 = get_seconds();
   for (i=0; i<iters; i++) {
-    f = my_random_float();
+    f = my_random_float2();
   }
   t1 = get_seconds();
-  printf ("mine \t %f ms\n", t1 - t0);
+  printf ("mine2 \t %f ms\n", t1 - t0);
     
 
   srandom (seed);
@@ -118,4 +126,23 @@ main (int argc, char *argv[])
   }
   t1 = get_seconds();
   printf ("theirs \t %f ms\n", t1 - t0);    
+  */
+
+  //testing random double 
+  srandom (seed);
+  t0 = get_seconds();
+  for (i=0; i<iters; i++) {
+    d1 = random_double();
+  }
+  t1 = get_seconds();
+  printf ("theirs \t %f ms\n", t1 - t0);  
+
+  //testing my random double algorithm
+  srandom (seed);
+  t0 = get_seconds();
+  for (i=0; i<iters; i++) {
+    d2 = my_random_double();
+  }
+  t1 = get_seconds();
+  printf ("mine \t %f ms\n", t1 - t0);  
 }
