@@ -3,6 +3,13 @@
 Copyright 2014 Allen Downey
 License: Creative Commons Attribution-ShareAlike 3.0
 
+MODIFIED by Amanda Lee
+Software Systems
+March 2014
+
+Working implementation of a hashtable using given code
+and filling in the empty methods. The modified methods 
+are further commented by me and marked as modified. 
 */
 
 #include <stdio.h>
@@ -130,7 +137,11 @@ int hash_hashable(Hashable *hashable)
 }
 
 
-/* Compares integers. */
+/* MODIFIED BY AMANDA LEE
+Compares integers (returns 1 if the integers are equal
+0 if otherwise). It takes in two voids and casts them
+as ints. 
+*/
 int equal_int (void *ip, void *jp)
 {
     int *firstInt = (int *) ip;
@@ -139,7 +150,11 @@ int equal_int (void *ip, void *jp)
 }
 
 
-/* Compares strings. */
+/* MODIFIED BY AMANDA LEE
+Compares strings (returns 1 if the strings are equal
+0 if otherwise). It takes in two voids and casts them
+as strings. 
+*/
 int equal_string (void *s1, void *s2)
 {
     char *stringOne = (char *) s1;
@@ -149,7 +164,11 @@ int equal_string (void *s1, void *s2)
 }
 
 
-/* Compares Hashables. */
+/* MODIFIED BY AMANDA LEE
+Compares hashables (returns 1 if the hashables are equal
+0 if otherwise). It takes in the keys from the two hashables
+and comparers them using the provided equal function
+*/
 int equal_hashable(Hashable *h1, Hashable *h2)
 {
     int equal = (h1->equal)((h1->key), (h2->key));
@@ -190,7 +209,11 @@ typedef struct node {
 } Node;
 
 
-/* Makes a Node. */
+/* MODIFIED BY AMANDA LEE
+It takes in a hashable, value, node and creates a new node
+that where the next node is the provided node. It then 
+returns the created node.
+*/
 Node *make_node(Hashable *key, Value *value, Node *next)
 {
     Node *node = (Node *) malloc (sizeof (Node));
@@ -210,7 +233,10 @@ void print_node(Node *node)
 }
 
 
-/* Prints all the Nodes in a list. */
+/* MODIFIED BY AMANDA LEE
+This function iterates through all the nodes and prints all
+of them using the print_node function.
+*/
 void print_list(Node *node)
 {   
     do {
@@ -230,7 +256,10 @@ Node *prepend(Hashable *key, Value *value, Node *rest)
 }
 
 
-/* Looks up a key and returns the corresponding value, or NULL */
+/* MODIFIED BY AMANDA LEE
+Looks up a key in a given node list by iterating through
+the list and returns the corresponding value, or NULL 
+*/
 Value *list_lookup(Node *list, Hashable *key)
 {
     do {
@@ -251,7 +280,9 @@ typedef struct map {
 } Map;
 
 
-/* Makes a Map with n lists. */
+/* MODIFIED BY AMANDA LEE
+Makes and returns a Map with n lists. 
+*/
 Map *make_map(int n)
 {
     Map *map = (Map *) malloc (sizeof (Map));
@@ -275,7 +306,10 @@ void print_map(Map *map)
 }
 
 
-/* Adds a key-value pair to a map. */
+/* MODIFIED BY AMANDA LEE
+Adds a key-value pair to a map. If there is no room in 
+the map then it does not add the key-value pair.
+*/
 void map_add(Map *map, Hashable *key, Value *value)
 {
     int i;
@@ -288,7 +322,9 @@ void map_add(Map *map, Hashable *key, Value *value)
 }
 
 
-/* Looks up a key and returns the corresponding value, or NULL. */
+/* MODIFIED BY AMANDA LEE
+Looks up a key in the map's lists 
+and returns the corresponding value, or NULL. */
 Value *map_lookup(Map *map, Hashable *key)
 {
     int i;
