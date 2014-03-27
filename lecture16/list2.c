@@ -5,6 +5,12 @@ Based on an example from http://www.learn-c.org/en/Linked_lists
 Copyright 2014 Allen Downey
 License: Creative Commons Attribution-ShareAlike 3.0
 
+EDITED BY Amanda Lee
+Quiz 4, Question 1
+March 2014
+
+Filled in insert_by_index 
+
 */
 
 
@@ -102,6 +108,8 @@ void reverse(Node **head) {
     *head = node;
 }
 
+
+// EDITED BY Amanda Lee
 // Adds a new element to the list before the indexed element.
 // Index 0 adds an element to the beginning.  Index 1 adds an
 // element between the first and second elements.
