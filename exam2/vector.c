@@ -7,6 +7,7 @@ License: Creative Commons Attribution-ShareAlike 3.0
 
 
 #include "stdio.h"
+#include "stdlib.h"
 
 typedef struct {
     double *data;
@@ -17,7 +18,7 @@ typedef struct {
 Vector *make_vector(int len) {
     Vector *vector = malloc(sizeof(Vector));
 
-    vector->data = calloc(len * sizeof(double *));
+    vector->data = calloc(len,sizeof(double *));
     vector->len = len;
     return vector;
 }
@@ -67,9 +68,11 @@ void add_vector(Vector *A, Vector *B, Vector *C) {
 }
 
 // Adds two vectors elementwise and returns a new vector.
-double *add_vector_func(Vector *A, Vector *B) {
+Vector *add_vector_func(Vector *A, Vector *B) {
     Vector *C = make_vector(A->len);
     add_vector(A, B, C);
+
+    return C;
 }
 
 int main {
@@ -91,5 +94,5 @@ int main {
     free_vector(B);
     free_vector(C);
 
-    return 0
+    return 0;
 }

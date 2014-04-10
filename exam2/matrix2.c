@@ -155,6 +155,64 @@ double *row_sum(Matrix *A) {
     return res;
 }
 
+double *diag_sum(Matrix *A) {
+    double total;
+    int i,j;
+    double *res = calloc(2,sizeof(double));
+
+    j = A->cols;
+    if (A->cols > A->rows){
+        j = A-> rows;
+    }
+    for (i = 0;i<j;i++){
+        res[0] += A-> data[i][i];
+        res[1] += A->data[i][A->cols-1 -j];
+    }
+
+    return res;
+}
+
+Matrix *transpose_matrix(Matrix *A) {
+    Matrix *trans = make_matrix (A->cols, A->rows);
+
+    int i, j;
+
+    for (i=0; i<trans->rows; i++) {
+    for (j=0; j<trans->cols; j++) {
+        trans->data[i][j] = A->data[j][i];
+    }
+    }
+
+    return trans;
+}
+
+
+int is_magic_square(Matrix *A) {
+    int i,j;
+    Matrix *trans = transpose_matrix(A);
+
+    double *rowsums = row_sum(A);
+    double *colsums = row_sum(trans);
+    double *diagsums = diag_sum(A);
+
+    if (rowsums[0]!=colsums[0]&&rowsums[0]!=diagsums[0] &&rowsums[0]!=diagsums[1]){
+        return 0;
+    }
+
+    for (i=0; i<A->rows; i++) {
+        if (rowsums[0]!=rowsums[i]){
+            return 0;
+        }
+    }
+    for (j=0; j<trans->rows; j++){
+        if (colsums[0]!=colsums[j]){
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
 /* 
    http://en.wikipedia.org/wiki/Magic_square
 
@@ -202,6 +260,16 @@ int main() {
 	printf("row %d\t%lf\n", i, sums[i]);
     }
     // should print 6, 22, 38
+
+    Matrix *E = make_matrix(3, 3);
+    //increment_matrix(E, 1);
+    printf("E\n");
+    print_matrix(E);
+
+    int msquareE = is_magic_square(E);
+    printf("is E a magic square? %d\n", msquareE);
+    int msquareD = is_magic_square(D);
+    printf("is D a magic square? %d\n", msquareD);
 
     return 0;
 }
